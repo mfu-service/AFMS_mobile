@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Circle ring (dashed line simulation) -->
+    <path
+        android:pathData="M100,10 A90,90 0 1,1 100,190 A90,90 0 1,1 100,10"
+        android:strokeWidth="2"
+        android:strokeColor="#1e3a8a"
+        android:fillAlpha="0.15" />
+
+    <!-- Cap/Base -->
+    <path
+        android:fillColor="#1e3a8a"
+        android:pathData="M40,130 C40,130 70,145 100,130 C130,145 160,130 160,130 V155 C160,155 130,170 100,155 C70,170 40,155 40,155 V130Z" />
+
+    <!-- Center Line -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M100,155 V130" />
+
+    <!-- Left Bar (Accent 60%) -->
+    <path
+        android:fillColor="#d97706"
+        android:fillAlpha="0.6"
+        android:pathData="M55,90 h20 v35 h-20 z" />
+
+    <!-- Center Bar (Accent 100%) -->
+    <path
+        android:fillColor="#d97706"
+        android:pathData="M85,50 h30 v75 h-30 z" />
+
+    <!-- Right Bar (Accent 80%) -->
+    <path
+        android:fillColor="#d97706"
+        android:fillAlpha="0.8"
+        android:pathData="M125,70 h20 v55 h-20 z" />
+
+    <!-- Dots/Squares on top -->
+    <path
+        android:fillColor="#1e3a8a"
+        android:pathData="M75,35 h10 v10 h-10 z" />
+    <path
+        android:fillColor="#1e3a8a"
+        android:pathData="M120,25 h8 v8 h-8 z" />
+    <path
+        android:fillColor="#1e3a8a"
+        android:fillAlpha="0.6"
+        android:pathData="M100,15 h6 v6 h-6 z" />
+
+</vector>

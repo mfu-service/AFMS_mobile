@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFMS Logo Preview - Extended Colors</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8fafc;
+            gap: 40px;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #64748b;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 260px;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        h2 {
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        p.theme-name {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Logo Sizing */
+        .app-logo {
+            width: 130px;
+            height: 130px;
+        }
+
+        /* --- Color Themes --- */
+
+        /* 1. Royal Blue (Original) */
+        .theme-blue {
+            --primary: #1e3a8a; /* Dark Blue */
+            --accent: #d97706;  /* Amber/Gold */
+            --bg-ring: #dbeafe;
+        }
+
+        /* 2. Emerald Green (Academic/National) */
+        .theme-green {
+            --primary: #064e3b; /* Deep Green */
+            --accent: #f59e0b;  /* Bright Gold */
+            --bg-ring: #d1fae5;
+        }
+
+        /* 3. Modern Purple (Tech/SaaS) */
+        .theme-purple {
+            --primary: #581c87; /* Deep Purple */
+            --accent: #06b6d4;  /* Cyan */
+            --bg-ring: #f3e8ff;
+        }
+
+        /* 4. Crimson Red (Bold/Prestige) */
+        .theme-red {
+            --primary: #9f1239; /* Rose/Crimson */
+            --accent: #1e293b;  /* Dark Slate */
+            --bg-ring: #ffe4e6;
+        }
+
+        /* 5. Slate Gray (Minimalist/Professional) */
+        .theme-slate {
+            --primary: #334155; /* Slate 700 */
+            --accent: #0ea5e9;  /* Sky Blue */
+            --bg-ring: #f1f5f9;
+        }
+
+        /* 6. Burnt Orange (Creative/Dynamic) */
+        .theme-orange {
+            --primary: #c2410c; /* Orange 700 */
+            --accent: #1e3a8a;  /* Blue contrast */
+            --bg-ring: #ffedd5;
+        }
+
+        /* Applying Variables */
+        .card h2 { color: var(--primary); }
+        .card { border-top: 4px solid var(--primary); }
+        
+        .fill-primary { fill: var(--primary); }
+        .stroke-primary { stroke: var(--primary); }
+        .fill-accent { fill: var(--accent); }
+        .stroke-accent { stroke: var(--accent); }
+        .stroke-ring { stroke: var(--primary); opacity: 0.15; }
+        
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>خيارات الألوان المقترحة</h1>
+        <p>مجموعة متنوعة تناسب الهويات الأكاديمية والتقنية المختلفة</p>
+    </div>
+
+    <div class="container">
+        
+        <!-- 1. Royal Blue -->
+        <div class="card theme-blue">
+            <svg class="app-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" stroke-width="2" stroke-dasharray="10 5" class="stroke-ring"/>
+                <path d="M40 130 C40 130 70 145 100 130 C130 145 160 130 160 130 V155 C160 155 130 170 100 155 C70 170 40 155 40 155 V130Z" class="fill-primary"/>
+                <path d="M100 155 V130" stroke="white" stroke-width="2"/>
+                <rect x="55" y="90" width="20" height="35" rx="4" class="fill-accent" opacity="0.6"/>
+                <rect x="85" y="50" width="30" height="75" rx="4" class="fill-accent"/>
+                <rect x="125" y="70" width="20" height="55" rx="4" class="fill-accent" opacity="0.8"/>
+                <rect x="75" y="35" width="10" height="10" rx="2" class="fill-primary"/>
+                <rect x="120" y="25" width="8" height="8" rx="2" class="fill-primary"/>
+                <rect x="100" y="15" width="6" height="6" rx="1" class="fill-primary" opacity="0.6"/>
+            </svg>
+            <h2>AFMS</h2>
+            <p class="theme-name">Royal Blue (الملكي) حساب الادارة العامة</p>
+        </div>
+
+        <!-- 2. Emerald Green -->
+        <div class="card theme-green">
+            <svg class="app-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" stroke-width="2" stroke-dasharray="10 5" class="stroke-ring"/>
+                <path d="M40 130 C40 130 70 145 100 130 C130 145 160 130 160 130 V155 C160 155 130 170 100 155 C70 170 40 155 40 155 V130Z" class="fill-primary"/>
+                <path d="M100 155 V130" stroke="white" stroke-width="2"/>
+                <rect x="55" y="90" width="20" height="35" rx="4" class="fill-accent" opacity="0.6"/>
+                <rect x="85" y="50" width="30" height="75" rx="4" class="fill-accent"/>
+                <rect x="125" y="70" width="20" height="55" rx="4" class="fill-accent" opacity="0.8"/>
+                <rect x="75" y="35" width="10" height="10" rx="2" class="fill-primary"/>
+                <rect x="120" y="25" width="8" height="8" rx="2" class="fill-primary"/>
+                <rect x="100" y="15" width="6" height="6" rx="1" class="fill-primary" opacity="0.6"/>
+            </svg>
+            <h2>AFMS</h2>
+            <p class="theme-name">Emerald Green (الأكاديمي) حساب  / الأساتذة / </p>
+        </div>
+
+        <!-- 3. Modern Purple -->
+        <div class="card theme-purple">
+            <svg class="app-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" stroke-width="2" stroke-dasharray="10 5" class="stroke-ring"/>
+                <path d="M40 130 C40 130 70 145 100 130 C130 145 160 130 160 130 V155 C160 155 130 170 100 155 C70 170 40 155 40 155 V130Z" class="fill-primary"/>
+                <path d="M100 155 V130" stroke="white" stroke-width="2"/>
+                <rect x="55" y="90" width="20" height="35" rx="4" class="fill-accent" opacity="0.6"/>
+                <rect x="85" y="50" width="30" height="75" rx="4" class="fill-accent"/>
+                <rect x="125" y="70" width="20" height="55" rx="4" class="fill-accent" opacity="0.8"/>
+                <rect x="75" y="35" width="10" height="10" rx="2" class="fill-primary"/>
+                <rect x="120" y="25" width="8" height="8" rx="2" class="fill-primary"/>
+                <rect x="100" y="15" width="6" height="6" rx="1" class="fill-primary" opacity="0.6"/>
+            </svg>
+            <h2>AFMS</h2>
+            <p class="theme-name">Modern Purple (التقني) حساب الامانة </p>
+        </div>
+
+        <!-- 4. Crimson Red -->
+        <div class="card theme-red">
+            <svg class="app-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" stroke-width="2" stroke-dasharray="10 5" class="stroke-ring"/>
+                <path d="M40 130 C40 130 70 145 100 130 C130 145 160 130 160 130 V155 C160 155 130 170 100 155 C70 170 40 155 40 155 V130Z" class="fill-primary"/>
+                <path d="M100 155 V130" stroke="white" stroke-width="2"/>
+                <rect x="55" y="90" width="20" height="35" rx="4" class="fill-accent" opacity="0.6"/>
+                <rect x="85" y="50" width="30" height="75" rx="4" class="fill-accent"/>
+                <rect x="125" y="70" width="20" height="55" rx="4" class="fill-accent" opacity="0.8"/>
+                <rect x="75" y="35" width="10" height="10" rx="2" class="fill-primary"/>
+                <rect x="120" y="25" width="8" height="8" rx="2" class="fill-primary"/>
+                <rect x="100" y="15" width="6" height="6" rx="1" class="fill-primary" opacity="0.6"/>
+            </svg>
+            <h2>AFMS</h2>
+            <p class="theme-name">Crimson Red (الحيوي) حساب الكلية والقسم</p>
+        </div>
+
+         <!-- 5. Slate Gray -->
+         <div class="card theme-slate">
+            <svg class="app-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" stroke-width="2" stroke-dasharray="10 5" class="stroke-ring"/>
+                <path d="M40 130 C40 130 70 145 100 130 C130 145 160 130 160 130 V155 C160 155 130 170 100 155 C70 170 40 155 40 155 V130Z" class="fill-primary"/>
+                <path d="M100 155 V130" stroke="white" stroke-width="2"/>
+                <rect x="55" y="90" width="20" height="35" rx="4" class="fill-accent" opacity="0.6"/>
+                <rect x="85" y="50" width="30" height="75" rx="4" class="fill-accent"/>
+                <rect x="125" y="70" width="20" height="55" rx="4" class="fill-accent" opacity="0.8"/>
+                <rect x="75" y="35" width="10" height="10" rx="2" class="fill-primary"/>
+                <rect x="120" y="25" width="8" height="8" rx="2" class="fill-primary"/>
+                <rect x="100" y="15" width="6" height="6" rx="1" class="fill-primary" opacity="0.6"/>
+            </svg>
+            <h2>AFMS</h2>
+            <p class="theme-name">Slate Gray (المهني)</p>
+        </div>
+
+         <!-- 6. Burnt Orange -->
+         <div class="card theme-orange">
+            <svg class="app-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" stroke-width="2" stroke-dasharray="10 5" class="stroke-ring"/>
+                <path d="M40 130 C40 130 70 145 100 130 C130 145 160 130 160 130 V155 C160 155 130 170 100 155 C70 170 40 155 40 155 V130Z" class="fill-primary"/>
+                <path d="M100 155 V130" stroke="white" stroke-width="2"/>
+                <rect x="55" y="90" width="20" height="35" rx="4" class="fill-accent" opacity="0.6"/>
+                <rect x="85" y="50" width="30" height="75" rx="4" class="fill-accent"/>
+                <rect x="125" y="70" width="20" height="55" rx="4" class="fill-accent" opacity="0.8"/>
+                <rect x="75" y="35" width="10" height="10" rx="2" class="fill-primary"/>
+                <rect x="120" y="25" width="8" height="8" rx="2" class="fill-primary"/>
+                <rect x="100" y="15" width="6" height="6" rx="1" class="fill-primary" opacity="0.6"/>
+            </svg>
+            <h2>AFMS</h2>
+            <p class="theme-name">Burnt Orange (الإبداعي) حساب الطلبة</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
