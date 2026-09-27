@@ -5,7 +5,7 @@
 Latest APK: **https://github.com/mfu-service/AFMS_mobile/releases/latest**
 
 1. Open that page on the phone.
-2. Download `AFMS-1.0.0.apk`.
+2. Download `AFMS-1.0.1.apk`.
 3. Allow **Install unknown apps** for Chrome or Files if Android asks.
 4. Open the APK and tap **Install**.
 

@@ -3,10 +3,15 @@ package dz.afms.mobile
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Message
 import android.view.ViewGroup
+import android.webkit.CookieManager
 import android.webkit.PermissionRequest
+import android.webkit.URLUtil
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -70,15 +75,39 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            // طلب صلاحية الكاميرا
-            val launcher = rememberLauncherForActivityResult(
-                ActivityResultContracts.RequestPermission()
+            val fileChooser = remember { FileChooserHolder() }
+            val fileChooserLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                fileChooser.deliver(result)
+            }
+
+            val permissionLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.RequestMultiplePermissions()
             ) { }
 
             LaunchedEffect(Unit) {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) 
-                    != PackageManager.PERMISSION_GRANTED) {
-                    launcher.launch(Manifest.permission.CAMERA)
+                val needed = buildList {
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        add(Manifest.permission.CAMERA)
+                    }
+                    if (Build.VERSION.SDK_INT >= 33 &&
+                        ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+                        != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        add(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                    if (Build.VERSION.SDK_INT <= 28 &&
+                        ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    }
+                }
+                if (needed.isNotEmpty()) {
+                    permissionLauncher.launch(needed.toTypedArray())
                 }
             }
 
@@ -150,6 +179,24 @@ class MainActivity : ComponentActivity() {
                                 ViewGroup.LayoutParams.MATCH_PARENT
                             )
                             webViewClient = object : WebViewClient() {
+                                override fun shouldOverrideUrlLoading(
+                                    view: WebView?,
+                                    request: WebResourceRequest?,
+                                ): Boolean {
+                                    val target = request?.url?.toString() ?: return false
+                                    if (isLikelyFileDownload(target)) {
+                                        enqueueHttpDownload(
+                                            context,
+                                            target,
+                                            view?.settings?.userAgentString,
+                                            null,
+                                            request?.requestHeaders?.get("Accept"),
+                                        )
+                                        return true
+                                    }
+                                    return false
+                                }
+
                                 override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
                                     super.doUpdateVisitedHistory(view, url, isReload)
                                     canGoBack = view?.canGoBack() == true
@@ -177,17 +224,94 @@ class MainActivity : ComponentActivity() {
                                 override fun onPermissionRequest(request: PermissionRequest) {
                                     request.grant(request.resources)
                                 }
+
+                                override fun onShowFileChooser(
+                                    webView: WebView?,
+                                    filePathCallback: android.webkit.ValueCallback<Array<android.net.Uri>>?,
+                                    fileChooserParams: FileChooserParams?,
+                                ): Boolean {
+                                    return try {
+                                        fileChooserLauncher.launch(
+                                            fileChooser.start(context, filePathCallback, fileChooserParams)
+                                        )
+                                        true
+                                    } catch (_: Exception) {
+                                        fileChooser.cancel()
+                                        false
+                                    }
+                                }
+
+                                override fun onCreateWindow(
+                                    view: WebView,
+                                    isDialog: Boolean,
+                                    isUserGesture: Boolean,
+                                    resultMsg: Message,
+                                ): Boolean {
+                                    val transport = resultMsg.obj as WebView.WebViewTransport
+                                    val popup = WebView(view.context).apply {
+                                        @SuppressLint("SetJavaScriptEnabled")
+                                        settings.javaScriptEnabled = true
+                                        webViewClient = object : WebViewClient() {
+                                            override fun shouldOverrideUrlLoading(
+                                                v: WebView,
+                                                request: WebResourceRequest,
+                                            ): Boolean {
+                                                val popupUrl = request.url.toString()
+                                                if (isLikelyFileDownload(popupUrl)) {
+                                                    enqueueHttpDownload(
+                                                        context,
+                                                        popupUrl,
+                                                        view.settings.userAgentString,
+                                                        null,
+                                                        null,
+                                                    )
+                                                } else {
+                                                    view.loadUrl(popupUrl)
+                                                }
+                                                return true
+                                            }
+                                        }
+                                    }
+                                    transport.webView = popup
+                                    resultMsg.sendToTarget()
+                                    return true
+                                }
                             }
+
+                            setDownloadListener { downloadUrl, userAgent, contentDisposition, mimeType, _ ->
+                                val name = URLUtil.guessFileName(downloadUrl, contentDisposition, mimeType)
+                                when {
+                                    downloadUrl.startsWith("data:") ->
+                                        AfmsBridge(context).saveBase64(downloadUrl, name, mimeType)
+                                    downloadUrl.startsWith("blob:") ->
+                                        downloadBlobInWebView(this, downloadUrl, name, mimeType)
+                                    else -> enqueueHttpDownload(
+                                        context,
+                                        downloadUrl,
+                                        userAgent,
+                                        contentDisposition,
+                                        mimeType,
+                                    )
+                                }
+                            }
+
+                            addJavascriptInterface(AfmsBridge(context), "AfmsBridge")
+                            CookieManager.getInstance().setAcceptCookie(true)
+                            CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
 
                             settings.apply {
                                 @SuppressLint("SetJavaScriptEnabled")
                                 javaScriptEnabled = true
+                                javaScriptCanOpenWindowsAutomatically = true
+                                setSupportMultipleWindows(true)
                                 domStorageEnabled = true
+                                allowFileAccess = true
+                                allowContentAccess = true
                                 loadWithOverviewMode = isDesktopMode
                                 useWideViewPort = isDesktopMode
                                 cacheMode = WebSettings.LOAD_DEFAULT
                                 mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-                                
+
                                 setSupportZoom(true)
                                 builtInZoomControls = true
                                 displayZoomControls = false

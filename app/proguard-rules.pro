@@ -1,7 +1,8 @@
 # AFMS Production Proguard Rules
 
-# 1. WebView - Keep JavaScript interfaces if used in future
+# 1. WebView - Keep JavaScript interfaces
 -keepattributes JavascriptInterface
+-keep class dz.afms.mobile.AfmsBridge { *; }
 -keepclassmembers class * {
     @android.webkit.JavascriptInterface <methods>;
 }

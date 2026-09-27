@@ -1,9 +1,6 @@
 name: Release APK
 
 on:
-  push:
-    tags:
-      - "v*"
   workflow_dispatch:
 
 permissions:
@@ -30,21 +27,21 @@ jobs:
       - name: Prepare APK
         run: |
           mkdir -p dist
-          cp app/build/outputs/apk/release/*.apk dist/AFMS-1.0.0.apk
+          cp app/build/outputs/apk/release/*.apk dist/AFMS-1.0.1.apk
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
-          name: AFMS 1.0.0
-          files: dist/AFMS-1.0.0.apk
+          tag_name: v1.0.1
+          name: AFMS 1.0.1
+          files: dist/AFMS-1.0.1.apk
           generate_release_notes: true
           body: |
             ## Download on Android
             1. Open this page on your phone.
-            2. Tap **AFMS-1.0.0.apk**.
+            2. Tap **AFMS-1.0.1.apk**.
             3. Allow install from this source if Android asks.
             4. Open the file and tap Install.
 
             Package: `dz.afms.mobile`
-            Version: 1.0.0
+            Version: 1.0.1

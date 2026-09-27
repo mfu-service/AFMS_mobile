@@ -21,8 +21,8 @@ android {
         applicationId = "dz.afms.mobile"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.0.1"
 
         buildConfigField("String", "API_BASE_URL", "\"https://ft-edugate.univ-eloued.dz/\"")
     }
@@ -32,7 +32,7 @@ android {
             create("release") {
                 val storePath = keystoreProperties.getProperty("storeFile")
                     ?: error("keystore.properties is missing storeFile")
-                storeFile = file(storePath)
+                storeFile = rootProject.file(storePath)
                 storePassword = keystoreProperties.getProperty("storePassword")
                 keyAlias = keystoreProperties.getProperty("keyAlias")
                 keyPassword = keystoreProperties.getProperty("keyPassword")

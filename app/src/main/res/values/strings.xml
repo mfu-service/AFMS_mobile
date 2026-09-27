@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AFMS</string>
+    <string name="download_started">جاري تحميل %1$s</string>
+    <string name="download_in_progress">تحميل ملف AFMS</string>
+    <string name="download_saved">تم حفظ %1$s في التنزيلات</string>
+    <string name="download_failed">تعذر حفظ الملف</string>
+    <string name="file_chooser_title">اختر ملف PDF أو Excel</string>
 </resources>
